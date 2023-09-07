@@ -21,9 +21,10 @@ public class MiddleSectionPanel : LobbyPanelBase
         base.InitPanel(uiManager);
 
         networkRunnerController = GlobalManagers.Instance.NetworkRunnerController;
+
         
         joinRandomRoomBtn.onClick.AddListener(joinRandomRoom);
-        joinRoomByArgBtn.onClick.AddListener(() =>  CreateRoom(GameMode.Host, joinRoomByArgInputField.text));
+        joinRoomByArgBtn.onClick.AddListener(() =>  CreateRoom(GameMode.Client, joinRoomByArgInputField.text));
         createRoomBtn.onClick.AddListener(() =>  CreateRoom(GameMode.Host, createRoomInputField.text));
     }
 

@@ -4,15 +4,26 @@ using System.Collections.Generic;
 using Fusion;
 using Fusion.Sockets;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NetworkRunnerController : MonoBehaviour, INetworkRunnerCallbacks
 {
+    public event Action OnStartedRunnerConnectio;
+    public event Action OnPlayerJoinedSucssfully;
+    
     [SerializeField] private NetworkRunner networkRunnerPrefab;
 
     private NetworkRunner networkRunnerInstance;
+
+    public void ShutDownRunner()
+    {
+        networkRunnerInstance.Shutdown();
+    }
     
     public async void StartGame(GameMode mode, string roomName)
     {
+        OnStartedRunnerConnectio?.Invoke();
+        
         if (networkRunnerInstance == null)
         {
             networkRunnerInstance = Instantiate(networkRunnerPrefab);
@@ -68,6 +79,7 @@ public class NetworkRunnerController : MonoBehaviour, INetworkRunnerCallbacks
     public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
     {
         Debug.Log("OnShutdown");
+        SceneManager.LoadScene("Lobby");
     }
 
     public void OnConnectedToServer(NetworkRunner runner)
