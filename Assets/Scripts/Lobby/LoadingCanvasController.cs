@@ -14,7 +14,7 @@ public class LoadingCanvasController : MonoBehaviour
     {
         networkRunnerController = GlobalManagers.Instance.NetworkRunnerController;
 
-        networkRunnerController.OnStartedRunnerConnectio += OnStartedRunnerConnection;
+        networkRunnerController.OnStartedRunnerConnection += OnStartedRunnerConnection;
         networkRunnerController.OnPlayerJoinedSucssfully += OnPlayerJoinedSucessfully;
         
         cancelBtn.onClick.AddListener(networkRunnerController.ShutDownRunner);
@@ -44,7 +44,7 @@ public class LoadingCanvasController : MonoBehaviour
 
     private void OnDestroy()
     {
-        networkRunnerController.OnStartedRunnerConnectio -= OnStartedRunnerConnection;
+        networkRunnerController.OnStartedRunnerConnection -= OnStartedRunnerConnection;
         networkRunnerController.OnPlayerJoinedSucssfully -= OnPlayerJoinedSucessfully;
     }
 }

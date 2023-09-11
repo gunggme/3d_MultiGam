@@ -8,8 +8,10 @@ using UnityEngine.SceneManagement;
 
 public class NetworkRunnerController : MonoBehaviour, INetworkRunnerCallbacks
 {
-    public event Action OnStartedRunnerConnectio;
+    public event Action OnStartedRunnerConnection;
     public event Action OnPlayerJoinedSucssfully;
+    
+    public string LocalPlayerNickname { get; private set; }
     
     [SerializeField] private NetworkRunner networkRunnerPrefab;
 
@@ -19,19 +21,26 @@ public class NetworkRunnerController : MonoBehaviour, INetworkRunnerCallbacks
     {
         networkRunnerInstance.Shutdown();
     }
+
+    public void SetPlayerNickname(string str)
+    {
+        LocalPlayerNickname = str;
+    }
     
     public async void StartGame(GameMode mode, string roomName)
     {
-        OnStartedRunnerConnectio?.Invoke();
+        OnStartedRunnerConnection?.Invoke();
         
         if (networkRunnerInstance == null)
         {
             networkRunnerInstance = Instantiate(networkRunnerPrefab);
         }
-        
+
+        //Register so we will get the callbacks as well
         networkRunnerInstance.AddCallbacks(this);
 
-        //networkRunnerInstance.ProvideInput = true;
+        // ProvideInput means that that player is recording and sending inputs to the server
+        networkRunnerInstance.ProvideInput = true;
 
         var startGameArgs = new StartGameArgs()
         {
